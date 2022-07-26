@@ -38,7 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'common'
+    'ckeditor',
+    'ckeditor_uploader',
+
+    'common',
+    'product'
 ]
 
 MIDDLEWARE = [
@@ -107,6 +111,51 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+
+# CKEDITOR CONFIG
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_RESTRICT_BY_DATE = True
+CKEDITOR_FORCE_JPEG_COMPRESSION = True
+CKEDITOR_IMAGE_BACKEND = "pillow"
+CKEDITOR_ALLOW_NONIMAGE_FILES = True
+CKEDITOR_CONFIGS = {
+    "default": {
+        "skin": "office2013",
+        "toolbar": "full",
+        "height": 400,
+        "width": "100%",
+        "removePlugins": "stylesheetparser",
+        "allowedContent": True,
+        "mathJaxLib": "//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML",
+        "extraPlugins": ",".join(
+            [
+                "ckeditor_wiris",
+                "uploadimage",  # the upload image feature
+                "adobeair",
+                "mathjax",
+                "ckeditor_wiris",
+                "clipboard",
+                "filetools",
+                "find",
+                "forms",
+                "iframe",
+                "iframedialog",
+                "link",
+                "liststyle",
+                "menubutton",
+                "notification",
+                "notificationaggregator",
+                "pagebreak",
+                "preview",
+                "table",
+                "tableresize",
+                "tabletools",
+                "uploadwidget",
+            ]
+        ),
+    },
+}
 
 
 # Static files (CSS, JavaScript, Images)
