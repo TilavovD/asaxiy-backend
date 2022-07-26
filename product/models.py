@@ -10,7 +10,8 @@ class Category(BaseModel):
     title = models.CharField(max_length=256)
     slug = models.CharField(max_length=256)
     icon = models.FileField(upload_to="category/", null=True, blank=True)
-    parent = models.ForeignKey("self", null=True, blank=True)
+    parent = models.ForeignKey(
+        "self", on_delete=models.CASCADE, null=True, blank=True)
 
 
 class Product(BaseModel):
@@ -48,7 +49,8 @@ class ProductImage(BaseModel):
 
 
 class Comment(BaseModel):
-    product = models.ForeignKey(Product, related_name="comments")
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name="comments")
     user = models.ForeignKey(
         User, related_name="comments", on_delete=models.CASCADE)
     rate = models.IntegerField(default=0)
