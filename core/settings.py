@@ -26,36 +26,69 @@ SECRET_KEY = 'django-insecure-o24!%(%xbqi5%-$)8jv&i8@k39r3l&y&je-3!8_2+u-1f!yc)@
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+HOST = 'localhost'
 
 # Application definition
 
 INSTALLED_APPS = [
+    "modeltranslation",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',   
 
     'ckeditor',
     'ckeditor_uploader',
 
+    "debug_toolbar",
+    'django_filters',
+
     'common',
-    'product'
+    'product',
+    'order',
 ]
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware',    # This must be first on the list
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    
+    'django.middleware.cache.FetchFromCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'core.urls'
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': 'mydatabase',
+#     }
+# }
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "asaxiy",
+        "USER": "postgres",
+        "PASSWORD": "doston3101",
+        "HOST": "localhost",
+        "PORT": "5432",
+        "ATOMIC_REQUESTS": True,
+    }
+}
 
 TEMPLATES = [
     {
@@ -73,6 +106,7 @@ TEMPLATES = [
     },
 ]
 
+USE_I18N = True
 WSGI_APPLICATION = 'core.wsgi.application'
 AUTH_USER_MODEL = "common.user"
 
@@ -178,7 +212,32 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")
 
 
-try:
-    from .local_settings import *  # noqa
-except ImportError:
-    pass # noqa
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://default:VjuvgUz4sPeskPKB2lxWXpX6JAqUncVX@redis-19030.c9.us-east-1-4.ec2.cloud.redislabs.com:19030",
+        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
+        # "KEY_PREFIX": "lenta",
+    },
+}
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+CACHE_TTL = 60 * 15
+
+gettext = lambda s: s
+LANGUAGES = (
+    ('de', gettext('German')),
+    ('en', gettext('English')),
+    ('uz', gettext('Uzbek')),
+)
+
+
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
+]
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}

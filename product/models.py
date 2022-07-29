@@ -34,11 +34,15 @@ class Product(BaseModel):
 
     saveds = models.ManyToManyField(User, related_name="saved_products")
 
+    def __str__(self):
+        return self.title
+
     def set_image(self):
         main_image = ProductImage.objects.filter(
             product=self, is_main=True).first()
         self.image = main_image
         self.save()
+
 
 
 class ProductImage(BaseModel):
@@ -58,3 +62,13 @@ class Comment(BaseModel):
 
 # SIGNAL
 # comment count, rate.
+
+
+class Option(BaseModel):
+    title = models.CharField(max_length=128)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="options")
+    is_filter = models.BooleanField(default=False)
+
+class OptionValues(BaseModel):
+    title = models.CharField(max_length=128)
+    option = models.ForeignKey(Option, on_delete=models.CASCADE, related_name="option_values")

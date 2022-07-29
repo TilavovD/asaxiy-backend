@@ -1,5 +1,5 @@
 Product
-    - cate
+    - category
     - title
     - options M2M OptionValue
 

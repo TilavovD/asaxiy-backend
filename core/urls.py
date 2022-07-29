@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.urls import path, re_path, include
 from common.ckeditor_views import browse, upload
 from django.contrib.auth.decorators import login_required
+from product.views import ProductCommentList, CategoryProductCommentList, UserComments
 
 urlpatterns = [
     re_path("ckeditor/upload/", login_required(upload), name="ckeditor_upload"),
@@ -29,7 +30,12 @@ urlpatterns = [
     ),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('admin/', admin.site.urls),
+    path('__debug__/', include('debug_toolbar.urls')),
+    path('api-auth/', include('rest_framework.urls')),
+    path("", UserComments.as_view(), name="ewofivr"),
+    path("category/<int:pk>", CategoryProductCommentList.as_view())
 ]
+
 
 # MEDIA URLS
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

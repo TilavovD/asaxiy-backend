@@ -21,7 +21,7 @@ HOST = "http://localhost:8000"
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
+        "LOCATION": "redis://default:VjuvgUz4sPeskPKB2lxWXpX6JAqUncVX@redis-19030.c9.us-east-1-4.ec2.cloud.redislabs.com:19030",
         "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
         "KEY_PREFIX": "lenta",
     },
